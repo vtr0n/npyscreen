@@ -122,6 +122,11 @@ class BoxTitle(BoxBasic):
         if 'start_display_at' in keywords:
             self.entry_widget.start_display_at = keywords['start_display_at']
 
+        if 'custom_highlighting' in keywords:
+            self.entry_widget.custom_highlighting = keywords['custom_highlighting']
+        if 'highlighting_arr_color_data' in keywords:
+            self.entry_widget.highlighting_arr_color_data = keywords['highlighting_arr_color_data']
+
     def make_contained_widget(self, contained_widget_arguments=None):
         self._my_widgets = []
         if contained_widget_arguments:

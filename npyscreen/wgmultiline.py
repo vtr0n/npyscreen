@@ -57,6 +57,8 @@ the same effect can be achieved by altering the __str__() method of displayed ob
                  allow_filtering=True,
                  cursor_line=0,
                  start_display_at=0,
+                 custom_highlighting=False,
+                 highlighting_arr_color_data=None,
                  **keywords):
 
         self.never_cache = False
@@ -100,6 +102,10 @@ the same effect can be achieved by altering the __str__() method of displayed ob
         # override - it looks nicer.
         if self.scroll_exit:
             self.slow_scroll = True
+
+        # custom highlightning
+        self.custom_highlighting = custom_highlighting
+        self.highlighting_arr_color_data = highlighting_arr_color_data
 
     def resize(self):
         super(MultiLine, self).resize()
@@ -298,6 +304,7 @@ object to be passed to the contained widget."""
         line.hidden = True
 
     def _set_line_highlighting(self, line, value_indexer):
+
         if value_indexer in self._filtered_values_cache:
             self.set_is_line_important(line, True)
         else:
@@ -310,6 +317,10 @@ object to be passed to the contained widget."""
             self.set_is_line_bold(line, False)
         self.set_is_line_cursor(line, False)
 
+        # set custom
+        if self.custom_highlighting:
+            self.set_custom_highlighting(line, self.highlighting_arr_color_data[value_indexer])
+
     def set_is_line_important(self, line, value):
         line.important = value
 
@@ -318,6 +329,11 @@ object to be passed to the contained widget."""
 
     def set_is_line_cursor(self, line, value):
         line.highlight = value
+
+    def set_custom_highlighting(self, line, color_data):
+
+        line.syntax_highlighting = True
+        line._highlightingdata = color_data
 
     def get_filtered_indexes(self, force_remake_cache=False):
         if not force_remake_cache:
