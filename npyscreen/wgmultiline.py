@@ -319,7 +319,8 @@ object to be passed to the contained widget."""
 
         # set custom
         if self.custom_highlighting:
-            self.set_custom_highlighting(line, self.highlighting_arr_color_data[value_indexer])
+            if value_indexer < len(self.highlighting_arr_color_data):
+                self.set_custom_highlighting(line, self.highlighting_arr_color_data[value_indexer])
 
     def set_is_line_important(self, line, value):
         line.important = value
